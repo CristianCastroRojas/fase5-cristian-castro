@@ -1,14 +1,1 @@
-# =========================
-# DEPENDENCIA EXTERNA
-# =========================
-
-# tkcalendar:
-# Librería adicional utilizada para incorporar componentes
-# de calendario en interfaces gráficas Tkinter.
-
-# >=1.6.1:
-# Indica que el proyecto requiere una versión igual
-# o superior a la 1.6.1 para garantizar compatibilidad
-# con las funcionalidades implementadas.
-
 tkcalendar>=1.6.1
