@@ -1,10 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox
 
-# FASE 2
+# * IMPORTACIÓN MÓDULOS FASES
+# * Interfaces disponibles dentro del sistema.
 from fases.fase_2.interfaz_registro import RegistroApp as RegistroAppFase2
 from fases.fase_3.interfaz_registro import RegistroApp as RegistroAppFase3
+from fases.fase_4.interfaz_principal import Ventana
 
+# * IMPORTACIÓN CONFIGURACIÓN GLOBAL
+# * Colores, textos y datos compartidos.
 from config.fase_5.constantes_globales import (
     TEXTO_FOOTER,
     TITULO_APP,
@@ -17,6 +21,8 @@ from config.fase_5.constantes_globales import (
     COLOR_TEXTO_SECUNDARIO,
 )
 
+# * IMPORTACIÓN CONFIGURACIÓN MENÚ
+# * Dimensiones, fuentes y textos del menú principal.
 from config.fase_5.constantes_menu import (
     ANCHO_VENTANA_MENU,
     ALTO_VENTANA_MENU,
@@ -33,15 +39,18 @@ from config.fase_5.constantes_menu import (
     TEXTO_FASE4,
     TEXTO_SALIR,
 )
-from fases.fase_4.interfaz_principal import Ventana
 
 
+# * CLASE MENÚ INTEGRADOR
+# * Permite navegar entre las diferentes fases.
 class AppIntegracion:
 
     def __init__(self, root):
 
+        # * CREACIÓN VENTANA SECUNDARIA
         self.ventana = tk.Toplevel(root)
 
+        # * CONFIGURACIÓN PRINCIPAL
         self.ventana.title(TITULO_APP)
 
         self.ventana.geometry(f"{ANCHO_VENTANA_MENU}x{ALTO_VENTANA_MENU}")
@@ -50,33 +59,36 @@ class AppIntegracion:
 
         self.ventana.configure(bg=COLOR_FONDO)
 
-        # Capturar el cierre de la ventana desde la "X" de la barra de título
+        # ! Captura cierre manual desde la X
         self.ventana.protocol("WM_DELETE_WINDOW", self.salir)
 
+        # * CONSTRUCCIÓN INICIAL
         self.crear_interfaz()
 
         self.centrar()
 
-    # =========================
-    # CENTRAR VENTANA
-    # =========================
+    # ==================================================
+    # * CENTRAR VENTANA
+    # ==================================================
 
     def centrar(self):
 
         self.ventana.update_idletasks()
 
+        # ? Calcular posición central pantalla
         x = (self.ventana.winfo_screenwidth() // 2) - (ANCHO_VENTANA_MENU // 2)
 
         y = (self.ventana.winfo_screenheight() // 2) - (ALTO_VENTANA_MENU // 2)
 
         self.ventana.geometry(f"{ANCHO_VENTANA_MENU}x" f"{ALTO_VENTANA_MENU}+{x}+{y}")
 
-    # =========================
-    # INTERFAZ
-    # =========================
+    # ==================================================
+    # * CREACIÓN INTERFAZ
+    # ==================================================
 
     def crear_interfaz(self):
 
+        # * CONTENEDOR PRINCIPAL
         frame = tk.Frame(
             self.ventana,
             bg=COLOR_BLANCO,
@@ -93,6 +105,10 @@ class AppIntegracion:
             width=ANCHO_FRAME_MENU,
             height=ALTO_FRAME_MENU,
         )
+
+        # ==================================================
+        # * ENCABEZADO
+        # ==================================================
 
         tk.Label(
             frame,
@@ -127,7 +143,9 @@ class AppIntegracion:
             pady=(0, 20),
         )
 
-        # BOTONES
+        # ==================================================
+        # * BOTONES MENÚ
+        # ==================================================
 
         self.crear_boton(
             frame,
@@ -157,6 +175,10 @@ class AppIntegracion:
             COLOR_ERROR,
         )
 
+        # ==================================================
+        # * PIE DE PÁGINA
+        # ==================================================
+
         tk.Label(
             self.ventana,
             text=TEXTO_FOOTER,
@@ -168,9 +190,9 @@ class AppIntegracion:
             pady=10,
         )
 
-    # =========================
-    # BOTON ESTANDAR
-    # =========================
+    # ==================================================
+    # * BOTÓN ESTÁNDAR
+    # ==================================================
 
     def crear_boton(
         self,
@@ -180,6 +202,7 @@ class AppIntegracion:
         color,
     ):
 
+        # ? Método reutilizable para evitar repetir código
         tk.Button(
             parent,
             text=texto,
@@ -196,9 +219,9 @@ class AppIntegracion:
             pady=8,
         )
 
-    # =========================
-    # EVENTOS MENU
-    # =========================
+    # ==================================================
+    # * EVENTOS MENÚ
+    # ==================================================
 
     def abrir_fase2(self):
 
@@ -206,6 +229,7 @@ class AppIntegracion:
 
             RegistroAppFase2(self.ventana)
 
+        # ! Captura errores apertura Fase 2
         except Exception as e:
 
             messagebox.showerror(
@@ -219,6 +243,7 @@ class AppIntegracion:
 
             RegistroAppFase3()
 
+        # ! Captura errores apertura Fase 3
         except Exception as e:
 
             messagebox.showerror(
@@ -232,6 +257,7 @@ class AppIntegracion:
 
             Ventana(self.ventana)
 
+        # ! Captura errores apertura Fase 4
         except Exception as e:
 
             messagebox.showerror(
@@ -239,7 +265,11 @@ class AppIntegracion:
                 str(e),
             )
 
+    # ==================================================
+    # * CERRAR SISTEMA
+    # ==================================================
+
     def salir(self):
 
-        # Destruir la ventana principal oculta (root) para finalizar completamente el proceso
+        # ! Finaliza completamente la aplicación
         self.ventana.master.destroy()

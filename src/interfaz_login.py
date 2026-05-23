@@ -1,9 +1,9 @@
 import tkinter as tk
-
 from tkinter import messagebox
-
 from datetime import datetime
 
+# * IMPORTACIÓN DE CONSTANTES GLOBALES
+# * Variables compartidas de apariencia y configuración.
 from config.fase_5.constantes_globales import (
     CLAVE_ACCESO,
     COLOR_BLANCO,
@@ -16,6 +16,9 @@ from config.fase_5.constantes_globales import (
     TEXTO_FOOTER,
     TITULO_APP,
 )
+
+# * IMPORTACIÓN DE CONSTANTES LOGIN
+# * Configuración específica del formulario de acceso.
 from config.fase_5.constantes_login import (
     ALTO_FRAME,
     ALTO_VENTANA,
@@ -34,45 +37,65 @@ from config.fase_5.constantes_login import (
 )
 
 
+# * CLASE PRINCIPAL LOGIN
+# * Gestiona la interfaz y validación de acceso.
 class LoginApp:
 
     def __init__(self):
+
+        # * CREACIÓN DE VENTANA PRINCIPAL
         self.ventana = tk.Tk()
+
+        # * CONFIGURACIÓN VISUAL
         self.ventana.title(f"Acceso - {TITULO_APP}")
         self.ventana.geometry(f"{ANCHO_VENTANA}x{ALTO_VENTANA}")
         self.ventana.resizable(False, False)
         self.ventana.configure(bg=COLOR_FONDO)
+
+        # * CONSTRUCCIÓN INICIAL
         self.crear_interfaz()
         self.centrar()
 
-    # ==========================
-    # CENTRAR VENTANA
-    # ==========================
+    # ==================================================
+    # * CENTRAR VENTANA
+    # ==================================================
 
     def centrar(self):
+
+        # ? Calcula posición central usando resolución pantalla
         self.ventana.update_idletasks()
+
         x = (self.ventana.winfo_screenwidth() // 2) - (ANCHO_VENTANA // 2)
+
         y = (self.ventana.winfo_screenheight() // 2) - (ALTO_VENTANA // 2)
+
         self.ventana.geometry(f"{ANCHO_VENTANA}x{ALTO_VENTANA}+{x}+{y}")
 
-    # ==========================
-    # INTERFAZ
-    # ==========================
+    # ==================================================
+    # * CONSTRUCCIÓN INTERFAZ
+    # ==================================================
 
     def crear_interfaz(self):
+
+        # * CONTENEDOR PRINCIPAL
         frame = tk.Frame(
             self.ventana,
             bg=COLOR_BLANCO,
             highlightthickness=1,
             highlightbackground=COLOR_BORDE,
         )
+
         frame.place(
-            relx=0.5, rely=0.5, anchor="center", width=ANCHO_FRAME, height=ALTO_FRAME
+            relx=0.5,
+            rely=0.5,
+            anchor="center",
+            width=ANCHO_FRAME,
+            height=ALTO_FRAME,
         )
 
-        # ==========================
-        # TITULO
-        # ==========================
+        # ==================================================
+        # * TÍTULO SISTEMA
+        # ==================================================
 
         tk.Label(
             frame,
@@ -82,9 +105,9 @@ class LoginApp:
             fg=COLOR_PRIMARIO,
         ).pack(pady=10)
 
-        # ==========================
-        # DATOS ESTUDIANTE
-        # ==========================
+        # ==================================================
+        # * DATOS INFORMATIVOS
+        # ==================================================
 
         tk.Label(
             frame,
@@ -96,30 +119,49 @@ class LoginApp:
 
         tk.Label(
             frame,
-            text=(f"Fecha: " f"{datetime.now().strftime('%d/%m/%Y')}"),
+            text=f"Fecha: {datetime.now().strftime('%d/%m/%Y')}",
             font=FUENTE_NORMAL,
             bg=COLOR_BLANCO,
             fg=COLOR_TEXTO_SECUNDARIO,
         ).pack()
 
-        # ==========================
-        # CREDENCIAL
-        # ==========================
+        # ==================================================
+        # * INGRESO DE CREDENCIAL
+        # ==================================================
 
         tk.Label(
-            frame, text=TEXTO_CREDENCIAL, font=FUENTE_NORMAL, bg=COLOR_BLANCO
+            frame,
+            text=TEXTO_CREDENCIAL,
+            font=FUENTE_NORMAL,
+            bg=COLOR_BLANCO,
         ).pack(pady=(10, 0))
-        self.entry = tk.Entry(frame, show="*", font=FUENTE_NORMAL, justify="center")
+
+        self.entry = tk.Entry(
+            frame,
+            show="*",
+            font=FUENTE_NORMAL,
+            justify="center",
+        )
+
         self.entry.pack(pady=5)
+
+        # ? Posiciona cursor automáticamente
         self.entry.focus()
+
+        # ? Permite validar con ENTER
         self.entry.bind("<Return>", lambda event: self.validar())
 
-        # ==========================
-        # BOTONES
-        # ==========================
+        # ==================================================
+        # * BOTONES ACCIÓN
+        # ==================================================
 
         btn_frame = tk.Frame(frame, bg=COLOR_BLANCO)
-        btn_frame.pack(pady=15, fill="x", padx=20)
+
+        btn_frame.pack(
+            pady=15,
+            fill="x",
+            padx=20,
+        )
 
         tk.Button(
             btn_frame,
@@ -130,7 +172,12 @@ class LoginApp:
             font=FUENTE_BOTON,
             bd=0,
             height=2,
-        ).pack(side="left", expand=True, fill="x", padx=5)
+        ).pack(
+            side="left",
+            expand=True,
+            fill="x",
+            padx=5,
+        )
 
         tk.Button(
             btn_frame,
@@ -141,11 +188,16 @@ class LoginApp:
             font=FUENTE_BOTON,
             bd=0,
             height=2,
-        ).pack(side="left", expand=True, fill="x", padx=5)
+        ).pack(
+            side="left",
+            expand=True,
+            fill="x",
+            padx=5,
+        )
 
-        # ==========================
-        # FOOTER
-        # ==========================
+        # ==================================================
+        # * PIE DE PÁGINA
+        # ==================================================
 
         tk.Label(
             self.ventana,
@@ -155,31 +207,44 @@ class LoginApp:
             font=FUENTE_FOOTER,
         ).pack(side="bottom", pady=10)
 
-    # ==========================
-    # VALIDACION LOGIN
-    # ==========================
+    # ==================================================
+    # * VALIDACIÓN LOGIN
+    # ==================================================
 
     def validar(self):
+
+        # * Obtener valor ingresado
         clave = self.entry.get()
 
+        # ! Validación campo vacío
         if clave.strip() == "":
             messagebox.showerror("Error", MENSAJE_ERROR_VACIO)
             return
 
+        # ! Validación credencial incorrecta
         if clave != CLAVE_ACCESO:
-            messagebox.showerror("Acceso denegado", MENSAJE_ERROR_CLAVE)
+
+            messagebox.showerror(
+                "Acceso denegado",
+                MENSAJE_ERROR_CLAVE,
+            )
+
             self.entry.delete(0, tk.END)
             return
 
-        messagebox.showinfo("Acceso permitido", MENSAJE_ACCESO_OK)
+        # * Acceso exitoso
+        messagebox.showinfo(
+            "Acceso permitido",
+            MENSAJE_ACCESO_OK,
+        )
 
         self.ventana.withdraw()
 
         self.abrir_menu_principal()
 
-    # ==========================
-    # MENU INTEGRADOR FASE 5
-    # ==========================
+    # ==================================================
+    # * ABRIR MENÚ PRINCIPAL
+    # ==================================================
 
     def abrir_menu_principal(self):
 
@@ -187,8 +252,11 @@ class LoginApp:
 
         AppIntegracion(self.ventana)
 
-    # ==========================
-    # EJECUTAR
-    # ==========================
+    # ==================================================
+    # * EJECUCIÓN PRINCIPAL
+    # ==================================================
+
     def ejecutar(self):
+
+        # * Mantener interfaz en funcionamiento
         self.ventana.mainloop()
