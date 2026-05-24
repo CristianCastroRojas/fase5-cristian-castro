@@ -1,1 +1,5 @@
+# ? Dependencia del proyecto
+# ! tkcalendar: librería para agregar calendarios en interfaces gráficas con Tkinter
+# ? Versión mínima requerida: 1.6.1
+
 tkcalendar>=1.6.1

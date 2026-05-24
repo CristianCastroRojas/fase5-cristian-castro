@@ -16,8 +16,14 @@ class GestionAfiliados:
         - Cola (FIFO)
         - Lista (colección general)
         """
+
+        # * Estructura tipo pila (último en entrar, primero en salir)
         self.pila = []
+
+        # * Estructura tipo cola (primero en entrar, primero en salir)
         self.cola = []
+
+        # * Lista general de afiliados
         self.lista = []
 
     # ============================
@@ -27,19 +33,17 @@ class GestionAfiliados:
     def apilar(self, afiliado):
         """
         Inserta un afiliado en la estructura tipo Pila (LIFO).
-
-        Parámetros:
-            afiliado (EstructuraDatosAfiliado): objeto afiliado a registrar.
         """
+
+        # * Agrega al final de la pila
         self.pila.append(afiliado)
 
     def desapilar(self):
         """
         Elimina y retorna el último afiliado agregado en la Pila.
-
-        Retorna:
-            afiliado (EstructuraDatosAfiliado | None)
         """
+
+        # * Verifica que la pila no esté vacía
         if len(self.pila) > 0:
             return self.pila.pop()
         return None
@@ -51,19 +55,17 @@ class GestionAfiliados:
     def encolar(self, afiliado):
         """
         Inserta un afiliado en la estructura tipo Cola (FIFO).
-
-        Parámetros:
-            afiliado (EstructuraDatosAfiliado): objeto afiliado a registrar.
         """
+
+        # * Agrega al final de la cola
         self.cola.append(afiliado)
 
     def desencolar(self):
         """
         Elimina y retorna el primer afiliado de la Cola (FIFO).
-
-        Retorna:
-            afiliado (EstructuraDatosAfiliado | None)
         """
+
+        # * Verifica que la cola no esté vacía
         if len(self.cola) > 0:
             return self.cola.pop(0)
         return None
@@ -75,22 +77,17 @@ class GestionAfiliados:
     def agregar_lista(self, afiliado):
         """
         Agrega un afiliado al final de la lista.
-
-        Parámetros:
-            afiliado (EstructuraDatosAfiliado): objeto afiliado a registrar.
         """
+
+        # * Inserta en la lista general
         self.lista.append(afiliado)
 
     def eliminar_lista(self, numero_identificacion):
         """
         Elimina un afiliado de la lista buscando por número de identificación.
-
-        Parámetros:
-            numero_identificacion (int): ID del afiliado a eliminar.
-
-        Retorna:
-            afiliado eliminado o None si no se encuentra.
         """
+
+        # * Buscar afiliado por ID
         for i, afiliado in enumerate(self.lista):
             if afiliado.numero_identificacion == numero_identificacion:
                 return self.lista.pop(i)
@@ -102,29 +99,28 @@ class GestionAfiliados:
 
     def reporte_pila(self):
         """
-        Calcula la suma total de tarifas de los afiliados en la pila.
-
-        Retorna:
-            float: suma de tarifas.
+        Suma total de tarifas en la pila.
         """
+
+        # * Suma todas las tarifas de los afiliados en la pila
         return sum(a.tarifa_afiliacion for a in self.pila)
 
     def reporte_cola(self):
         """
-        Retorna la cantidad de afiliados en la cola.
-
-        Retorna:
-            int: número de registros.
+        Cantidad de afiliados en la cola.
         """
+
+        # * Retorna el número de elementos en la cola
         return len(self.cola)
 
     def reporte_lista(self):
         """
-        Calcula el promedio de ingresos de los afiliados en la lista.
-
-        Retorna:
-            float: promedio de ingresos o 0 si está vacía.
+        Promedio de ingresos de la lista de afiliados.
         """
+
+        # * Validación de lista vacía
         if len(self.lista) == 0:
             return 0
+
+        # * Cálculo del promedio de ingresos
         return sum(a.ingresos for a in self.lista) / len(self.lista)

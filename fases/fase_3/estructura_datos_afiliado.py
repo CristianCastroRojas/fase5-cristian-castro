@@ -1,10 +1,12 @@
 # ============================
-# CLASE ESTRUCTURA DE DATOS AFILIADO
+# IMPORTACIONES
 # ============================
-
 from datetime import datetime
 
 
+# ============================
+# CLASE: ESTRUCTURA DE DATOS AFILIADO
+# ============================
 class EstructuraDatosAfiliado:
     """
     Clase que representa la estructura de datos de un afiliado.
@@ -20,6 +22,10 @@ class EstructuraDatosAfiliado:
         modalidad: str,
         estructura: str,
     ):
+
+        # ============================
+        # ASIGNACIÓN DE ATRIBUTOS
+        # ============================
         self.tipo_identificacion = tipo_identificacion
         self.numero_identificacion = numero_identificacion
         self.nombre_completo = nombre_completo
@@ -28,15 +34,28 @@ class EstructuraDatosAfiliado:
         self.modalidad = modalidad
         self.estructura = estructura
 
+        # * Resultado del cálculo de afiliación
         self.tarifa_afiliacion = 0
+
+        # * Fecha en la que se registra el afiliado
         self.fecha_afiliacion = datetime.now().strftime("%d/%m/%Y")
 
+    # ============================
+    # MÉTODO: CALCULAR TARIFA DE AFILIACIÓN
+    # ============================
     def calcular_tarifa_afiliacion(self):
+
+        # * Ingreso base del afiliado
         ingresos = self.ingresos
         tarifa = 0
 
-        # Tarifa según modalidad y ingresos
+        # ============================
+        # TARIFA SEGÚN MODALIDAD
+        # ============================
+
+        # * Caso: empleado
         if self.modalidad.lower() == "empleado":
+
             if 1_000_000 <= ingresos < 2_000_000:
                 tarifa = 45000
             elif 2_000_000 <= ingresos < 3_000_000:
@@ -48,7 +67,9 @@ class EstructuraDatosAfiliado:
             else:
                 tarifa = 150000
 
-        else:  # independiente
+        # * Caso: independiente
+        else:
+
             if 1_000_000 <= ingresos < 2_000_000:
                 tarifa = 10000
             elif 2_000_000 <= ingresos < 3_000_000:
@@ -60,15 +81,23 @@ class EstructuraDatosAfiliado:
             else:
                 tarifa = 80000
 
-        # Ajuste por servicio
+        # ============================
+        # AJUSTE SEGÚN SERVICIO
+        # ============================
+
         if self.servicio == "Ingreso a parque":
             tarifa += 2500
+
         elif self.servicio == "Curso de formación":
             tarifa += 7500
+
         elif self.servicio == "Paquete de viaje":
             tarifa += 10000
+
         elif self.servicio == "Medicina preventiva":
             tarifa += ingresos * 0.10
 
+        # * Guardar resultado final
         self.tarifa_afiliacion = tarifa
+
         return tarifa
